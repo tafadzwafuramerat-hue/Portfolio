@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import { Send, Phone } from 'lucide-react';
 import Reveal from './Reveal';
 import contactIllustration from '../assets/illustration.jpg';
 
-// lucide-react v1 dropped brand/logo icons, so GitHub and LinkedIn are small inline SVGs.
+// GitHub icon
 function GithubIcon({ size = 16, ...props }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width={size} height={size} {...props}>
@@ -12,38 +13,109 @@ function GithubIcon({ size = 16, ...props }) {
   );
 }
 
+// LinkedIn icon
 function LinkedinIcon({ size = 16, ...props }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" width={size} height={size} {...props}>
-      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.25 2.37 4.25 5.44v6.3ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
+      <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.25 2.37 4.25 5.44v6.3ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0-4.12ZM7.12 20.45H3.56V9h3.56v11.45Z" />
     </svg>
   );
 }
 
 const CONTACT_LINKS = [
-  { icon: GithubIcon, label: 'GitHub', href: 'https://github.com/tafadzwafuramerat-hue', display: 'tafadzwafuramerat-hue' },
-  { icon: LinkedinIcon, label: 'LinkedIn', href: 'https://www.linkedin.com/in/tafadzwa-furamerat', display: 'Tafadzwa Furamerat' },
-  { icon: Phone, label: 'Phone', href: 'tel:+263787716043', display: '+263 78 771 6043' },
+  {
+    icon: GithubIcon,
+    label: 'GitHub',
+    href: 'https://github.com/tafadzwafuramerat-hue',
+    display: 'tafadzwafuramerat-hue'
+  },
+  {
+    icon: LinkedinIcon,
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/tafadzwa-furamerat',
+    display: 'Tafadzwa Furamerat'
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    href: 'tel:+263787716043',
+    display: '+263 78 771 6043'
+  },
 ];
 
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const formRef = useRef();
+
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    title: '',
+    message: ''
+  });
+
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleChange = (e) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    setForm((f) => ({
+      ...f,
+      [e.target.name]: e.target.value
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Wire this up to your backend / email service of choice.
-    setSent(true);
+
+    setSending(true);
+    setSent(false);
+    setError(false);
+
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      console.error('EmailJS is not configured. Add the VITE_EMAILJS_* values to .env.');
+      setError(true);
+      setSending(false);
+      return;
+    }
+
+    try {
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        {
+          publicKey: EMAILJS_PUBLIC_KEY,
+        }
+      );
+
+      setSent(true);
+
+      setForm({
+        name: '',
+        email: '',
+        title: '',
+        message: ''
+      });
+
+    } catch (error) {
+      console.error('EmailJS Error:', error.status, error.text);
+      setError(true);
+      
+    }
+
+    setSending(false);
   };
 
   return (
     <section id="contact" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <Reveal>
         <div className="grid items-center gap-10 rounded-3xl border border-slate-100 bg-white dark:border-purple-900/40 dark:bg-surface-dark p-8 shadow-xl shadow-slate-200/40 sm:p-10 md:grid-cols-[240px_1fr]">
+
+          {/* Illustration */}
           <div className="mx-auto grid h-56 w-40 place-items-center overflow-hidden rounded-[999px] border-4 border-pink-200 bg-pink-50">
             <img
               src={contactIllustration}
@@ -56,10 +128,12 @@ export default function Contact() {
             <h2 className="font-display text-2xl font-bold text-slate-900 dark:text-pink-100 sm:text-3xl">
               Contact <span className="text-pink-500">Me</span>
             </h2>
+
             <p className="mt-2 text-sm text-slate-500 dark:text-pink-200/70">
               Have a project in mind? Send a note and I&apos;ll get back to you within a day or two.
             </p>
 
+            {/* Social links */}
             <div className="mt-5 flex flex-wrap gap-3">
               {CONTACT_LINKS.map(({ icon: Icon, label, href, display }) => (
                 <a
@@ -75,7 +149,14 @@ export default function Contact() {
               ))}
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-6 grid gap-4">
+            {/* Contact Form */}
+            <form
+              ref={formRef}
+              onSubmit={handleSubmit}
+              className="mt-6 grid gap-4"
+            >
+
+              {/* Name */}
               <input
                 type="text"
                 name="name"
@@ -85,6 +166,8 @@ export default function Contact() {
                 onChange={handleChange}
                 className="rounded-xl border border-slate-200 dark:border-purple-800/50 bg-slate-50/60 dark:bg-white/5 px-4 py-3 text-sm outline-none transition-colors focus:border-pink-400 focus:bg-white dark:focus:bg-white/10"
               />
+
+              {/* Email */}
               <input
                 type="email"
                 name="email"
@@ -94,6 +177,19 @@ export default function Contact() {
                 onChange={handleChange}
                 className="rounded-xl border border-slate-200 dark:border-purple-800/50 bg-slate-50/60 dark:bg-white/5 px-4 py-3 text-sm outline-none transition-colors focus:border-pink-400 focus:bg-white dark:focus:bg-white/10"
               />
+
+              {/* Subject */}
+              <input
+                type="text"
+                name="title"
+                placeholder="Subject"
+                required
+                value={form.title}
+                onChange={handleChange}
+                className="rounded-xl border border-slate-200 dark:border-purple-800/50 bg-slate-50/60 dark:bg-white/5 px-4 py-3 text-sm outline-none transition-colors focus:border-pink-400 focus:bg-white dark:focus:bg-white/10"
+              />
+
+              {/* Message */}
               <textarea
                 name="message"
                 placeholder="Your Message"
@@ -103,17 +199,31 @@ export default function Contact() {
                 onChange={handleChange}
                 className="resize-none rounded-xl border border-slate-200 dark:border-purple-800/50 bg-slate-50/60 dark:bg-white/5 px-4 py-3 text-sm outline-none transition-colors focus:border-pink-400 focus:bg-white dark:focus:bg-white/10"
               />
+
+              {/* Submit */}
               <button
                 type="submit"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-linear-to-r from-pink-500 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-pink-200 transition-transform hover:scale-[1.01]"
+                disabled={sending}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-linear-to-r from-pink-500 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-pink-200 transition-transform hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Send Message <Send size={15} />
+                {sending ? 'Sending...' : 'Send Message'}
+                <Send size={15} />
               </button>
+
+              {/* Success message */}
               {sent && (
-                <p className="text-center text-xs font-medium text-pink-600">
-                  Thanks — your message has been noted.
+                <p className="text-center text-xs font-medium text-green-600">
+                  Message sent successfully! I&apos;ll get back to you soon.
                 </p>
               )}
+
+              {/* Error message */}
+              {error && (
+                <p className="text-center text-xs font-medium text-red-600">
+                  Something went wrong. Please try again.
+                </p>
+              )}
+
             </form>
           </div>
         </div>
