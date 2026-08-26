@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* Enables the `dark:` variant based on a .dark class on <html>, toggled in App.jsx */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Girlish palette: soft pink surface, lavender/rose accents */
+  --color-bg: #FDF2F8;
+  --color-surface: #FFFFFF;
+  --color-ink: #3B0764;
+  --color-accent: #DB2777;
+  --color-accent-light: #F472B6;
+  --color-accent-2: #A855F7;
+  --color-particle: #FBCFE8;
+
+  --color-bg-dark: #1E1024;
+  --color-surface-dark: #2B1533;
+  --color-ink-dark: #FBCFE8;
+  --color-particle-dark: #4C1D5B;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark body {
+  background-color: var(--color-bg-dark);
+  color: var(--color-ink-dark);
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
