@@ -2,8 +2,8 @@ import Reveal from './Reveal';
 import profilePhoto from '../assets/profile.png';
 
 const STATS = [
-  { value: '1', label: 'Year Experience' },
-  { value: '4+', label: 'Projects Completed' },
+  { value: '2026', label: 'Uncommon.org' },
+  { value: '6+', label: 'Projects Completed' },
 ];
 
 export default function About() {
@@ -25,10 +25,16 @@ export default function About() {
               About <span className="text-pink-500">Me</span>
             </h2>
             <p className="mt-4 max-w-xl text-slate-500 dark:text-pink-200/70">
-              I'm a frontend engineer who cares as much about interaction
-              detail as system design. I partner with product and design teams to ship
-              interfaces that feel considered, from the first frame to the last pixel.
+              Aspiring Software Developer currently training at Uncommon.org, with hands-on
+              experience building web applications using React.js, Node.js, Express.js,
+              PostgreSQL, and Supabase. I am passionate about learning new technologies,
+              solving real-world problems, and writing clean, efficient code.
             </p>
+
+            <div className="mt-6 border-l-2 border-pink-400 pl-4">
+              <p className="text-sm font-semibold text-slate-900 dark:text-pink-100">Software Development &amp; Product Design</p>
+              <p className="mt-1 text-sm text-slate-500 dark:text-pink-200/70">Uncommon.org, Mufakose Innovation Hub, Zimbabwe | 2026</p>
+            </div>
 
             <div className="mt-6 flex flex-wrap gap-8">
               {STATS.map((s) => (

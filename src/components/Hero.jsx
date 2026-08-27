@@ -19,8 +19,8 @@ export default function Hero() {
           <h1 className="font-display text-4xl font-extrabold leading-tight text-slate-900 dark:text-pink-100 sm:text-5xl">
             Hi, I&apos;m <span className="bg-linear-to-r from-pink-500 to-pink-600 bg-clip-text text-transparent">Tafadzwa Furamera</span></h1>
           <p className="mt-5 max-w-md text-slate-500 dark:text-pink-200/70">
-            I build fast, accessible interfaces with clean architecture turning product
-            requirements into interactions people actually enjoy using.
+            Aspiring Software Developer training at Uncommon.org, building practical web
+            applications and REST APIs with modern full-stack technologies.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <a

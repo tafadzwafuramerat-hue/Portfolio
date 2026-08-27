@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
-import { Send, Phone } from 'lucide-react';
+import { Send, Phone, Mail, MapPin } from 'lucide-react';
 import Reveal from './Reveal';
 import contactIllustration from '../assets/illustration.jpg';
 
@@ -40,6 +40,18 @@ const CONTACT_LINKS = [
     label: 'Phone',
     href: 'tel:+263787716043',
     display: '+263 78 771 6043'
+  },
+  {
+    icon: Mail,
+    label: 'Email',
+    href: 'mailto:tafadzwafuramerat@gmail.com',
+    display: 'tafadzwafuramerat@gmail.com'
+  },
+  {
+    icon: MapPin,
+    label: 'Location',
+    href: '#contact',
+    display: 'Harare, Zimbabwe'
   },
 ];
 
@@ -130,7 +142,7 @@ export default function Contact() {
             </h2>
 
             <p className="mt-2 text-sm text-slate-500 dark:text-pink-200/70">
-              Have a project in mind? Send a note and I&apos;ll get back to you within a day or two.
+              Based in Harare, Zimbabwe. Get in touch about software development, web applications, or collaboration.
             </p>
 
             {/* Social links */}

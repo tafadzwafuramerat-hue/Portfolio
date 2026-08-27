@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Award, ExternalLink, X } from 'lucide-react';
+import { Award, ExternalLink, X, Code2, HeartHandshake } from 'lucide-react';
 import Reveal from './Reveal';
 
 const CERTIFICATES = [
@@ -29,8 +29,27 @@ export default function Experience() {
     <section id="experience" className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <Reveal>
         <div className="rounded-3xl border border-slate-100 bg-white dark:border-purple-900/40 dark:bg-surface-dark p-8 shadow-xl shadow-slate-200/40 sm:p-10">
+          <h2 className="font-display text-2xl font-bold text-slate-900 dark:text-pink-100 sm:text-3xl">
+            Professional <span className="text-pink-500">Experience</span>
+          </h2>
+          <div className="mt-6 flex gap-4">
+            <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-pink-100 text-pink-600 dark:bg-pink-500/20">
+              <Code2 size={18} />
+            </div>
+            <div>
+              <p className="font-semibold text-slate-900 dark:text-pink-100">Software Development Training</p>
+              <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-pink-200/70">
+                Developed web applications and REST APIs using React, JavaScript, Node.js,
+                Express, Python, Django, PostgreSQL, and Supabase. Built database-driven
+                projects, tested APIs with Postman, and gained practical experience in
+                debugging, GitHub, and responsive UI development.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-slate-100 pt-8 dark:border-purple-900/40">
           <h2 className="text-center font-display text-2xl font-bold text-slate-900 dark:text-pink-100 sm:text-3xl">
-            My <span className="text-pink-500">Certificates</span>
+            Certifications <span className="text-pink-500">&amp; Seminars</span>
           </h2>
           <p className="mx-auto mt-2 max-w-md text-center text-sm text-slate-500 dark:text-pink-200/70">
             Courses and programs I&apos;ve completed.
@@ -54,6 +73,22 @@ export default function Experience() {
                 </div>
               </button>
             ))}
+          </div>
+          </div>
+
+          <div className="mt-10 border-t border-slate-100 pt-8 dark:border-purple-900/40">
+            <div className="flex gap-4">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-pink-100 text-pink-600 dark:bg-pink-500/20">
+                <HeartHandshake size={18} />
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-bold text-slate-900 dark:text-pink-100">Volunteering <span className="text-pink-500">Experience</span></h3>
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-500 dark:text-pink-200/70">
+                  <li>Youth Coding Volunteer: supported young people in developing basic coding and digital skills.</li>
+                  <li>Orphanage Volunteer: assisted with community support activities and contributed to the wellbeing and development of children in need.</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </Reveal>
