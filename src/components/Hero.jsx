@@ -3,7 +3,7 @@ import { Download, Eye, ArrowRight } from 'lucide-react';
 import Reveal from './Reveal';
 import profilePhoto from '../assets/profile.png';
 
-const ORBIT_ICONS = [ 'JS', 'TW', 'Node',  'HTML', 'CSS', 'React', 'Python', 'Supabase' ];
+const ORBIT_ICONS = [ 'JS', 'TW', 'Node',  'HTML', 'CSS', 'React'];
 
 const TECH_STACK = [
   'Python', 'JavaScript', 'Tailwind CSS', 'Node.js', 'Supabase',
